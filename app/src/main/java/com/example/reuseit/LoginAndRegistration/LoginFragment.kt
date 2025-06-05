@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.addCallback
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.reuseit.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,6 +45,25 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.doLogin).setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("email", view.findViewById<EditText>(R.id.LoginEmail).text.toString())
+            }
+            findNavController().setGraph(R.navigation.application_graph, bundle)
+        }
+
+
+        view.findViewById<Button>(R.id.goToR1).setOnClickListener {
+            val email = view.findViewById<EditText>(R.id.LoginEmail).text.toString()
+            val password = view.findViewById<EditText>(R.id.LoginPassword).text.toString()
+            val action = LoginFragmentDirections.actionLoginFragmentToRegister1Fragment(email, password)
+            view.findNavController().navigate(action)
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+            requireActivity().finish()
+        }
     }
 
 

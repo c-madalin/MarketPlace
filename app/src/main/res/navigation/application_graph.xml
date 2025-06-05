@@ -9,5 +9,9 @@
         android:id="@+id/applicationFragment"
         android:name="com.example.reuseit.Application.ApplicationFragment"
         android:label="fragment_application"
-        tools:layout="@layout/fragment_application" />
+        tools:layout="@layout/fragment_application" >
+
+
+
+    </fragment>
 </navigation>
