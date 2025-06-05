@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.activity.addCallback
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,8 +52,16 @@ class Register1Fragment : Fragment() {
 
         view.findViewById<Button>(R.id.Reg1Next).setOnClickListener {
             val email = view.findViewById<EditText>(R.id.Reg1Email).text.toString()
-            val action = Register1FragmentDirections.actionRegister1FragmentToRegister2Fragment(email)
-            view.findNavController().navigate(action)
+            val password = view.findViewById<EditText>(R.id.Reg1Password).text.toString()
+
+            if(email != "" && password != "")
+            {   //maybe add message that the fields are empty
+                CurrentUser.Data.Email = email
+                CurrentUser.Data.Password = password
+
+                val action = Register1FragmentDirections.actionRegister1FragmentToRegister2Fragment(email)
+                view.findNavController().navigate(action)
+            }
         }
 
 

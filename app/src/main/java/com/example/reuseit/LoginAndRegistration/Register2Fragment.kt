@@ -1,13 +1,22 @@
 package com.example.reuseit.LoginAndRegistration
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.addCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.reuseit.Application.Global.CurrentUser
+import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,14 +52,36 @@ class Register2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.findViewById<Button>(R.id.doRegister).setOnClickListener {
+            val firstName = view.findViewById<EditText>(R.id.Reg2FirstName).text.toString()
+            val lastName = view.findViewById<EditText>(R.id.Reg2LastName).text.toString()
 
+            if (firstName != "" && lastName != "") {
+                CurrentUser.Data.FirstName = firstName
+                CurrentUser.Data.LastName = lastName
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_register2Fragment_to_loginFragment)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val userExists = withContext(Dispatchers.IO) {
+                        DatabaseInstance.Access.userDAO().CheckIfUserExists(CurrentUser.Data.Email) != 0
+                    }
+
+                    if (userExists) {
+                        Log.d("Database", "User already exists")
+                    } else {
+                        withContext(Dispatchers.IO) {
+                            DatabaseInstance.Access.userDAO().InsertUser(CurrentUser.Data.toUserEntity())
+                            Log.d("Database", "User inserted")
+                        }
+                        findNavController().setGraph(R.navigation.application_graph)
+                    }
+                }
+            }
         }
-    }
 
-
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                findNavController().navigate(R.id.action_register2Fragment_to_loginFragment)
+            }
+        }
 
 
     companion object {

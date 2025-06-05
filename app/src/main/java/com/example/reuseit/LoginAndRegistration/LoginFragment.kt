@@ -1,6 +1,7 @@
 package com.example.reuseit.LoginAndRegistration
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.addCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.reuseit.Application.Global.CurrentUser
+import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,11 +54,31 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.doLogin).setOnClickListener {
-            val bundle = Bundle().apply {
-                putString("email", view.findViewById<EditText>(R.id.LoginEmail).text.toString())
+            val email = view.findViewById<EditText>(R.id.LoginEmail).text.toString()
+            val password = view.findViewById<EditText>(R.id.LoginPassword).text.toString()
+
+            if (email != "" && password != "") {
+                CurrentUser.Data.Email = email
+                CurrentUser.Data.Password = password
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val userId = withContext(Dispatchers.IO) {
+                        DatabaseInstance.Access.userDAO().GetUserID(
+                            email = CurrentUser.Data.Email,
+                            password = CurrentUser.Data.hashPassword()
+                        )
+                    }
+
+                    if (userId != -1) {
+                        findNavController().setGraph(R.navigation.application_graph)
+                        Log.d("Database", userId.toString() + email.toString() + password.toString())
+                    } else {
+                        Log.d("Database", userId.toString() + email.toString() + password.toString())
+                    }
+                }
             }
-            findNavController().setGraph(R.navigation.application_graph, bundle)
         }
+
 
 
         view.findViewById<Button>(R.id.goToR1).setOnClickListener {
