@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.room.Room
 import com.example.reuseit.Application.Database.AppDatabase
 
+//Singleton for database
 object DatabaseInstance{
     lateinit var Access: AppDatabase
 }

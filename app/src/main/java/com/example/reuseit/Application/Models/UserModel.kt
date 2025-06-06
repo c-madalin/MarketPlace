@@ -1,8 +1,8 @@
 package com.example.reuseit.Application.Models
 
 import com.example.reuseit.Application.Database.Entity.UserEntity
-import com.example.reuseit.Application.Utils.ValidationUtils
-import com.example.reuseit.Application.Utils.PasswordStrength
+import com.example.reuseit.Utils.ValidationUtils
+import com.example.reuseit.Utils.PasswordStrength
 
 data class UserModel(
     public var UserID: Long = -1,

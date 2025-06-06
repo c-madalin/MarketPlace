@@ -85,7 +85,7 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:contentDescription="@string/dad"
-        android:src="@drawable/desktop_computer_svgrepo_com"
+        android:src="@drawable/app_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

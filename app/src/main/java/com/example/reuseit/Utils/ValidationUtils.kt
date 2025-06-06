@@ -1,4 +1,4 @@
-package com.example.reuseit.Application.Utils
+package com.example.reuseit.Utils
 
 import android.util.Log
 

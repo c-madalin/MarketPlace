@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
+import com.example.reuseit.Utils.ValidationUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -123,7 +124,7 @@ class LoginFragment : Fragment() {
                 val userId = withContext(Dispatchers.IO) {
                     DatabaseInstance.Access.userDAO().GetUserID(
                         email = email,
-                        password = com.example.reuseit.Application.Utils.ValidationUtils.hashPassword(password)
+                        password = ValidationUtils.hashPassword(password)
                     )
                 }
 
