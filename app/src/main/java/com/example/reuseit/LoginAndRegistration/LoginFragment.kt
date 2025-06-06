@@ -1,13 +1,13 @@
 package com.example.reuseit.LoginAndRegistration
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,6 +34,12 @@ class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: Button
+    private lateinit var registerButton: Button
+    private lateinit var errorTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,50 +60,93 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.doLogin).setOnClickListener {
-            val email = view.findViewById<EditText>(R.id.LoginEmail).text.toString()
-            val password = view.findViewById<EditText>(R.id.LoginPassword).text.toString()
+        emailEditText = view.findViewById(R.id.LoginEmail)
+        passwordEditText = view.findViewById(R.id.LoginPassword)
+        loginButton = view.findViewById(R.id.doLogin)
+        registerButton = view.findViewById(R.id.goToR1)
+        errorTextView = view.findViewById(R.id.loginErrorText)
 
-            if (email != "" && password != "") {
-                CurrentUser.Data.Email = email
-                CurrentUser.Data.Password = password
+        setupLoginButton()
+        setupRegisterButton()
+        setupBackButton()
+    }
 
-                viewLifecycleOwner.lifecycleScope.launch {
-                    val userId = withContext(Dispatchers.IO) {
-                        DatabaseInstance.Access.userDAO().GetUserID(
-                            email = CurrentUser.Data.Email,
-                            password = CurrentUser.Data.hashPassword()
-                        )
-                    }
+    private fun setupLoginButton() {
+        loginButton.setOnClickListener {
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
 
-                    if (userId != -1) {
-                        findNavController().setGraph(R.navigation.application_graph)
-                        Log.d("Database", userId.toString() + email.toString() + password.toString())
-                    } else {
-                        Log.d("Database", userId.toString() + email.toString() + password.toString())
-                    }
+            errorTextView.text = ""
+            errorTextView.visibility = View.GONE
+
+            when {
+                email.isEmpty() -> {
+                    showError("Email cannot be empty")
+                    emailEditText.requestFocus()
+                }
+                !CurrentUser.Data.validateEmail() -> {
+                    showError("Please enter a valid email address")
+                    emailEditText.requestFocus()
+                }
+                password.isEmpty() -> {
+                    showError("Password cannot be empty")
+                    passwordEditText.requestFocus()
+                }
+                else -> {
+                    attemptLogin(email, password)
                 }
             }
         }
+    }
 
-
-
-        view.findViewById<Button>(R.id.goToR1).setOnClickListener {
-            val email = view.findViewById<EditText>(R.id.LoginEmail).text.toString()
-            val password = view.findViewById<EditText>(R.id.LoginPassword).text.toString()
+    private fun setupRegisterButton() {
+        registerButton.setOnClickListener {
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
             val action = LoginFragmentDirections.actionLoginFragmentToRegister1Fragment(email, password)
-            view.findNavController().navigate(action)
+            view?.findNavController()?.navigate(action)
         }
+    }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){
+    private fun setupBackButton() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             requireActivity().finish()
         }
     }
 
+    private fun attemptLogin(email: String, password: String) {
+        loginButton.isEnabled = false
+        errorTextView.visibility = View.GONE
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val userId = withContext(Dispatchers.IO) {
+                    DatabaseInstance.Access.userDAO().GetUserID(
+                        email = email,
+                        password = com.example.reuseit.Application.Utils.ValidationUtils.hashPassword(password)
+                    )
+                }
 
+                if (userId != null) {
+                    CurrentUser.Data.UserID = userId
+                    CurrentUser.Data.Email = email
+                    findNavController().setGraph(R.navigation.application_graph)
+                } else {
+                    showError("Invalid email or password")
+                    loginButton.isEnabled = true
+                }
+            } catch (e: Exception) {
+                showError("An error occurred. Please try again.")
+                loginButton.isEnabled = true
+            }
+        }
+    }
 
-
+    private fun showError(message: String) {
+        errorTextView.text = message
+        errorTextView.visibility = View.VISIBLE
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
 
     companion object {
         /**

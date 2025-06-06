@@ -1,22 +1,24 @@
 package com.example.reuseit.LoginAndRegistration
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +34,13 @@ class Register2Fragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var firstNameLayout: TextInputLayout
+    private lateinit var lastNameLayout: TextInputLayout
+    private lateinit var firstNameEditText: TextInputEditText
+    private lateinit var lastNameEditText: TextInputEditText
+    private lateinit var registerButton: Button
+    private lateinit var errorTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,37 +61,104 @@ class Register2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.doRegister).setOnClickListener {
-            val firstName = view.findViewById<EditText>(R.id.Reg2FirstName).text.toString()
-            val lastName = view.findViewById<EditText>(R.id.Reg2LastName).text.toString()
+        // Initialize views
+        firstNameLayout = view.findViewById(R.id.firstNameLayout)
+        lastNameLayout = view.findViewById(R.id.lastNameLayout)
+        firstNameEditText = view.findViewById(R.id.Reg2FirstName)
+        lastNameEditText = view.findViewById(R.id.Reg2LastName)
+        registerButton = view.findViewById(R.id.doRegister)
+        errorTextView = view.findViewById(R.id.register2ErrorText)
 
-            if (firstName != "" && lastName != "") {
-                CurrentUser.Data.FirstName = firstName
-                CurrentUser.Data.LastName = lastName
+        setupRegisterButton()
+        setupBackButton()
+    }
 
-                viewLifecycleOwner.lifecycleScope.launch {
-                    val userExists = withContext(Dispatchers.IO) {
-                        DatabaseInstance.Access.userDAO().CheckIfUserExists(CurrentUser.Data.Email) != 0
-                    }
+    private fun setupRegisterButton() {
+        registerButton.setOnClickListener {
+            val firstName = firstNameEditText.text.toString()
+            val lastName = lastNameEditText.text.toString()
 
-                    if (userExists) {
-                        Log.d("Database", "User already exists")
-                    } else {
-                        withContext(Dispatchers.IO) {
-                            DatabaseInstance.Access.userDAO().InsertUser(CurrentUser.Data.toUserEntity())
-                            Log.d("Database", "User inserted")
-                        }
-                        findNavController().setGraph(R.navigation.application_graph)
-                    }
+            // Clear previous errors
+            errorTextView.text = ""
+            errorTextView.visibility = View.GONE
+            firstNameLayout.error = null
+            lastNameLayout.error = null
+
+            when {
+                firstName.isEmpty() -> {
+                    firstNameLayout.error = "First name cannot be empty"
+                    firstNameEditText.requestFocus()
+                }
+                firstName.length < 2 -> {
+                    firstNameLayout.error = "First name must be at least 2 characters"
+                    firstNameEditText.requestFocus()
+                }
+                !firstName.all { it.isLetter() || it.isWhitespace() } -> {
+                    firstNameLayout.error = "First name can only contain letters and spaces"
+                    firstNameEditText.requestFocus()
+                }
+                lastName.isEmpty() -> {
+                    lastNameLayout.error = "Last name cannot be empty"
+                    lastNameEditText.requestFocus()
+                }
+                lastName.length < 2 -> {
+                    lastNameLayout.error = "Last name must be at least 2 characters"
+                    lastNameEditText.requestFocus()
+                }
+                !lastName.all { it.isLetter() || it.isWhitespace() } -> {
+                    lastNameLayout.error = "Last name can only contain letters and spaces"
+                    lastNameEditText.requestFocus()
+                }
+                else -> {
+                    attemptRegistration(firstName, lastName)
                 }
             }
         }
+    }
 
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-                findNavController().navigate(R.id.action_register2Fragment_to_loginFragment)
+    private fun setupBackButton() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_register2Fragment_to_loginFragment)
+        }
+    }
+
+    private fun attemptRegistration(firstName: String, lastName: String) {
+        registerButton.isEnabled = false
+        errorTextView.visibility = View.GONE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val userExists = withContext(Dispatchers.IO) {
+                    DatabaseInstance.Access.userDAO()
+                        .CheckIfUserExists(CurrentUser.Data.Email) != null
+                }
+
+                if (!userExists) {
+                    CurrentUser.Data.FirstName = firstName
+                    CurrentUser.Data.LastName = lastName
+
+                    withContext(Dispatchers.IO) {
+                        val userID = DatabaseInstance.Access.userDAO().InsertUser(CurrentUser.Data.toUserEntity())
+                        CurrentUser.Data.UserID = userID
+                    }
+
+                    findNavController().setGraph(R.navigation.application_graph)
+                } else {
+                    showError("An account with this email already exists")
+                    registerButton.isEnabled = true
+                }
+            } catch (e: Exception) {
+                showError("An error occurred. Please try again.")
+                registerButton.isEnabled = true
             }
         }
+    }
 
+    private fun showError(message: String) {
+        errorTextView.text = message
+        errorTextView.visibility = View.VISIBLE
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
 
     companion object {
         /**
