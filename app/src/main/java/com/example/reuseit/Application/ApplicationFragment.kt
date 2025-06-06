@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.R
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +38,14 @@ class ApplicationFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_application, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Snackbar.make(view, CurrentUser.Data.Email + " " + CurrentUser.Data.Password +  " " +
+                CurrentUser.Data.FirstName +  " "  + CurrentUser.Data.LastName +  " " +
+                CurrentUser.Data.UserID.toString(), Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {
