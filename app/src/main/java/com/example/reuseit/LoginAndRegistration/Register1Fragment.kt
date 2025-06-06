@@ -8,14 +8,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.addCallback
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.Application.Utils.ValidationUtils
+import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,47 +86,57 @@ class Register1Fragment : Fragment() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
             val confirmPassword = confirmPasswordEditText.text.toString()
-
+            
             errorTextView.text = ""
             errorTextView.visibility = View.GONE
             emailLayout.error = null
             passwordLayout.error = null
             confirmPasswordLayout.error = null
 
-            when {
-                email.isEmpty() -> {
-                    emailLayout.error = "Email cannot be empty"
-                    emailEditText.requestFocus()
-                }
-                !ValidationUtils.isValidEmail(email) -> {
-                    emailLayout.error = "Please enter a valid email address"
-                    emailEditText.requestFocus()
-                }
-                password.isEmpty() -> {
-                    passwordLayout.error = "Password cannot be empty"
-                    passwordEditText.requestFocus()
-                }
-                !ValidationUtils.isValidPassword(password) -> {
-                    passwordLayout.error = "Password must be at least 5 characters long and contain at least one number and one letter"
-                    passwordEditText.requestFocus()
-                }
-                confirmPassword.isEmpty() -> {
-                    confirmPasswordLayout.error = "Please confirm your password"
-                    confirmPasswordEditText.requestFocus()
-                }
-                password != confirmPassword -> {
-                    confirmPasswordLayout.error = "Passwords do not match"
-                    confirmPasswordEditText.requestFocus()
-                }
-                else -> {
-                    CurrentUser.Data.Email = email
-                    CurrentUser.Data.Password = password
-                    val action = Register1FragmentDirections.actionRegister1FragmentToRegister2Fragment(email)
-                    view?.findNavController()?.navigate(action)
+            viewLifecycleOwner.lifecycleScope.launch {
+                val userExists =
+                    DatabaseInstance.Access.userDAO().CheckIfUserExists(email) != null
+
+                when {
+                    email.isEmpty() -> {
+                        emailLayout.error = "Email cannot be empty"
+                        emailEditText.requestFocus()
+                    }
+                    !ValidationUtils.isValidEmail(email) -> {
+                        emailLayout.error = "Please enter a valid email address"
+                        emailEditText.requestFocus()
+                    }
+                    userExists -> {
+                        emailLayout.error = "There is already a user with that email address"
+                        emailEditText.requestFocus()
+                    }
+                    password.isEmpty() -> {
+                        passwordLayout.error = "Password cannot be empty"
+                        passwordEditText.requestFocus()
+                    }
+                    !ValidationUtils.isValidPassword(password) -> {
+                        passwordLayout.error = "Password must be at least 5 characters long and contain at least one number and one letter"
+                        passwordEditText.requestFocus()
+                    }
+                    confirmPassword.isEmpty() -> {
+                        confirmPasswordLayout.error = "Please confirm your password"
+                        confirmPasswordEditText.requestFocus()
+                    }
+                    password != confirmPassword -> {
+                        confirmPasswordLayout.error = "Passwords do not match"
+                        confirmPasswordEditText.requestFocus()
+                    }
+                    else -> {
+                        CurrentUser.Data.Email = email
+                        CurrentUser.Data.Password = password
+                        val action = Register1FragmentDirections.actionRegister1FragmentToRegister2Fragment(email)
+                        view?.findNavController()?.navigate(action)
+                    }
                 }
             }
         }
     }
+
 
     private fun setupBackButton() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
