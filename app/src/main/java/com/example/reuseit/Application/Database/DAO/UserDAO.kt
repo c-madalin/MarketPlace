@@ -15,4 +15,7 @@ interface UserDAO {
 
     @Query("SELECT UserID FROM users WHERE email = :email")
     suspend fun CheckIfUserExists(email: String): Int?
+
+    @Query("SELECT UserID, email, password, firstName, lastName FROM users WHERE UserID = :UserID")
+    suspend fun GetUserById(UserID: Long): UserEntity?
 }

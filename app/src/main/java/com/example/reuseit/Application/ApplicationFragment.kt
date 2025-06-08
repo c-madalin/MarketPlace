@@ -1,13 +1,17 @@
 package com.example.reuseit.Application
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import com.example.reuseit.Application.Global.CurrentUser
 import com.example.reuseit.R
 import com.google.android.material.snackbar.Snackbar
+import androidx.core.content.edit
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +46,19 @@ class ApplicationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.logoutButton).setOnClickListener {
+            CurrentUser.Clear()
+            val prefs = (requireContext().getSharedPreferences("login_prefs", Context.MODE_PRIVATE))
+            prefs.edit() {
+                clear()
+            }
+            findNavController().setGraph(R.navigation.log_reg_graph)
+        }
+
+
+
+
 
         Snackbar.make(view, CurrentUser.Data.Email + " " + CurrentUser.Data.Password +  " " +
                 CurrentUser.Data.FirstName +  " "  + CurrentUser.Data.LastName +  " " +

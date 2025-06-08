@@ -61,7 +61,6 @@ class Register2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize views
         firstNameLayout = view.findViewById(R.id.firstNameLayout)
         lastNameLayout = view.findViewById(R.id.lastNameLayout)
         firstNameEditText = view.findViewById(R.id.Reg2FirstName)
@@ -78,7 +77,6 @@ class Register2Fragment : Fragment() {
             val firstName = firstNameEditText.text.toString()
             val lastName = lastNameEditText.text.toString()
 
-            // Clear previous errors
             errorTextView.text = ""
             errorTextView.visibility = View.GONE
             firstNameLayout.error = null
