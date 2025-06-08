@@ -14,5 +14,9 @@ interface UserDAO {
     suspend fun InsertUser(user: UserEntity): Long
 
     @Query("SELECT UserID FROM users WHERE email = :email")
-    suspend fun CheckIfUserExists(email: String): Int?
+    suspend fun CheckIfUserExists(email: String): Long?
+
+    @Query("SELECT UserID, email, password, firstName, lastName FROM users WHERE UserID = :UserID")
+    suspend fun GetUserById(UserID: Long): UserEntity?
+
 }

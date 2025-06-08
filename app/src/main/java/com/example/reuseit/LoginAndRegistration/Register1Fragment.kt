@@ -12,9 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.reuseit.Application.Global.CurrentUser
-import com.example.reuseit.Utils.ValidationUtils
 import com.example.reuseit.DatabaseInstance
 import com.example.reuseit.R
+import com.example.reuseit.Utils.ValidationUtils
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
