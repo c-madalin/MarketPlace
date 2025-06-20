@@ -1,0 +1,40 @@
+
+MarketPlace Android App
+------------------------
+
+Overview:
+MarketPlace is an Android application for buying and selling second-hand PC and laptop components.
+All items are verified and tested for quality.
+
+Main Features:
+- User login and registration (with email and password)
+- 2-step registration (credentials + personal details)
+- Option to stay signed in for 5 minutes
+- Profile management (UserID, email, name)
+- Navigation between login and application flows
+- Planned: product listing, search, chat, feedback, and secure payment integration
+
+Technology Stack:
+- Kotlin & Jetpack components
+- Room (SQLite database)
+- Navigation Component
+- SharedPreferences
+- Coroutines
+- Material Design 3
+
+App Structure:
+- Application/
+  - Database/ (AppDatabase, DAO, Entity)
+  - Models/ (UserModel)
+  - Global/ (CurrentUser singleton)
+  - ApplicationFragment
+- LoginAndRegistration/ (LoginFragment, Register1Fragment, Register2Fragment)
+- Utils/ (ValidationUtils)
+- MainActivity and DatabaseInstance
+
+Validation:
+- Email format check
+- Password rules: min 5 characters, at least 1 digit and 1 letter
+- Password confirmation
+- Name: only letters, min 2 characters
+
