@@ -21,7 +21,10 @@ class MainActivity : AppCompatActivity() {
             applicationContext,
             AppDatabase::class.java,
             "app_database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(true)
+            .build()
+
 
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)

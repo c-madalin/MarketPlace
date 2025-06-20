@@ -11,6 +11,15 @@
         android:label="fragment_application"
         tools:layout="@layout/fragment_application" >
 
+        <fragment
+            android:id="@+id/addPostFragment"
+            android:name="com.example.reuseit.PostFragments.AddPostFragment"
+            android:label="Add Post"
+            tools:layout="@layout/fragment_add_post" />
+
+        <action
+            android:id="@+id/action_applicationFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment" />
 
 
     </fragment>
