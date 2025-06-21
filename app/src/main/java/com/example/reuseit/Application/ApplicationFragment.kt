@@ -45,6 +45,11 @@ class ApplicationFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
         val addPostButton = view.findViewById<Button>(R.id.addPostButton)
+        val httpTestButton = view.findViewById<Button>(R.id.btnHttpTest)
+        httpTestButton.setOnClickListener {
+            findNavController().navigate(R.id.httpRequestFragment)
+        }
+
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

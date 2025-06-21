@@ -13,6 +13,8 @@
         android:theme="@style/Theme.ReUseIT"
         tools:targetApi="31">
 
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -34,5 +36,7 @@
         </provider>
 
     </application>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
 
 </manifest>
