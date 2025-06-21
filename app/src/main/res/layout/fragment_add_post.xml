@@ -1,41 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:layout_marginBottom="32dp"
+        android:background="#FAFAFA">
 
-        <EditText
-            android:id="@+id/etTitle"
-            android:hint="Titlul postării"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <ImageView
-            android:id="@+id/imagePreview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:background="#EEE"
-            android:layout_marginBottom="16dp"/>
+            <!-- Titlu ecran -->
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Crează postare"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingBottom="16dp"
+                android:textColor="#222222" />
 
-        <Button
-            android:id="@+id/btnTakePicture"
-            android:text="Fă poză"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <!-- Titlu postare -->
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Titlul postării"
+                android:inputType="textCapSentences"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#888888"
+                android:layout_marginBottom="16dp" />
 
-        <Button
-            android:id="@+id/btnSavePost"
-            android:text="Salvează postarea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"/>
-    </LinearLayout>
+            <!-- Imagine -->
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:background="#DDDDDD"
+                android:contentDescription="Previzualizare imagine" />
+
+            <!-- Buton Fă Poză -->
+            <Button
+                android:id="@+id/btnTakePicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fă poză"
+                android:textColor="#2E7D32"
+                android:backgroundTint="#E8F5E9"
+                android:layout_marginTop="16dp" />
+
+            <!-- Buton Salvare -->
+            <Button
+                android:id="@+id/btnSavePost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Salvează postarea"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2E7D32"
+                android:layout_marginTop="24dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

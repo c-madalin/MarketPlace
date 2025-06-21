@@ -52,7 +52,7 @@ class ApplicationFragment : Fragment() {
             val posts = withContext(Dispatchers.IO) {
                 DatabaseInstance.Access.postDAO().getAllPosts()
             }
-            recyclerView.adapter = PostAdapter(posts)
+            recyclerView.adapter = PostAdapter(posts, requireActivity())
         }
 
         addPostButton.setOnClickListener {
