@@ -38,7 +38,15 @@ class PostAdapter(private val posts: List<PostEntity>) :
 
         holder.tvTitle.text = post.title
 
-        val bitmap = BitmapFactory.decodeFile(post.imagePath)
-        holder.ivPostImage.setImageBitmap(bitmap)
+        if (post.imagePath.isNotBlank()) {
+            val bitmap = BitmapFactory.decodeFile(post.imagePath)
+            holder.ivPostImage.setImageBitmap(bitmap)
+            holder.ivPostImage.visibility = View.VISIBLE
+        } else {
+            holder.ivPostImage.setImageDrawable(null)
+            holder.ivPostImage.visibility = View.GONE
+        }
+
+
     }
 }
