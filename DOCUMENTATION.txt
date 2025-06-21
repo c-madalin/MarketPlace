@@ -1,7 +1,3 @@
-
-MarketPlace Android App
-------------------------
-
 Overview:
 MarketPlace is an Android application for buying and selling second-hand PC and laptop components.
 All items are verified and tested for quality.
@@ -12,7 +8,9 @@ Main Features:
 - Option to stay signed in for 5 minutes
 - Profile management (UserID, email, name)
 - Navigation between login and application flows
-- Planned: product listing, search, chat, feedback, and secure payment integration
+- Create and view posts with or without images
+- Posts are stored locally on device using Room
+- No internet or Firebase connection required
 
 Technology Stack:
 - Kotlin & Jetpack components
@@ -29,12 +27,56 @@ App Structure:
   - Global/ (CurrentUser singleton)
   - ApplicationFragment
 - LoginAndRegistration/ (LoginFragment, Register1Fragment, Register2Fragment)
+- PostFragments/ (AddPostFragment, PostListFragment)
 - Utils/ (ValidationUtils)
 - MainActivity and DatabaseInstance
 
-Validation:
-- Email format check
-- Password rules: min 5 characters, at least 1 digit and 1 letter
-- Password confirmation
-- Name: only letters, min 2 characters
+Validation Rules:
+- Email: valid format
+- Password: minimum 5 characters, at least 1 digit and 1 letter
+- Name: only letters, minimum 2 characters
 
+Implemented Features:
+
+Authentication & Registration:
+- Users can register and log in using email, password, first and last name.
+- Data is stored locally using Room.
+- The "Keep me signed in" feature works using SharedPreferences.
+
+Main App Feed:
+- Main screen (ApplicationFragment) displays the title "REUSEIT" and a scrollable feed of posts (RecyclerView).
+- A button allows users to navigate to a screen for creating new posts.
+
+Post Creation:
+- AddPostFragment allows users to:
+  - enter a post title
+  - optionally take a picture using the device camera
+  - save the post in the local Room database
+- Posts can be created with or without an image.
+
+Local Storage:
+- All user data and posts are stored locally on the device.
+- No internet or Firebase connection is required.
+
+Problems Encountered & Solutions:
+
+1. Navigation error to AddPostFragment:
+   - Cause: AddPostFragment was incorrectly placed inside another fragment in the navigation graph.
+   - Solution: Moved it outside and reconnected action properly.
+
+2. App crashed after adding PostEntity:
+   - Cause: Database version was not updated.
+   - Solution: Updated version to 2 in AppDatabase and added fallbackToDestructiveMigration(true).
+
+3. Post creation required a picture:
+   - Cause: Code logic required imagePath to be non-null.
+   - Solution: Allowed empty imagePath if user posts without a picture.
+
+4. Post layout height was too large without image:
+   - Solution: ImageView visibility set to GONE if no image exists.
+
+Current Status:
+- App supports account creation and login
+- Users can post messages with or without pictures
+- All posts are visible in a scrollable feed
+- All data is saved locally; the app works fully offline

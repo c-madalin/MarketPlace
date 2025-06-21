@@ -9,7 +9,7 @@ deci e totul functional in keep me signed in
 
 Bifezi „Keep me signed in”
 
-✅ Aplicația salvează în SharedPreferences:
+Aplicația salvează în SharedPreferences:
 
 user_id
 
