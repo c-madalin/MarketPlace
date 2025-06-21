@@ -31,7 +31,7 @@ class PostAdapter(private val posts: List<PostEntity>) :
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
-        holder.tvUserName.text = "Posted by: ${post.userName}"
+        holder.tvUserName.text = "${post.userName}"
 
         val sdf = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
         holder.tvTimestamp.text = sdf.format(Date(post.timestamp))
