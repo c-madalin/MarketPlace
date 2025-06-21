@@ -1,0 +1,16 @@
+- acum ce fac man, a venit randul meu sa lucrez la proiect si incerc sa fac cu firebase ca sa fie postarile sincronizare, sa fei postari cu titlu si descriere, cu poze ar fi cam nasol
+
+
+
+deci e totul functional in keep me signed in
+
+ ○ Data stored in SharedPreferences; (1p)
+
+
+Bifezi „Keep me signed in”
+
+✅ Aplicația salvează în SharedPreferences:
+
+user_id
+
+last_login_time
