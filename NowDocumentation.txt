@@ -14,3 +14,46 @@ Bifezi „Keep me signed in”
 user_id
 
 last_login_time
+
+Overview
+ReUseIT (MarketPlace) is a 100% local Android application for buying, selling, and commenting on second-hand PC and laptop components. It uses Room for local storage, Retrofit for optional HTTP networking, and a clean MVVM architecture for maintainability.
+
+Main Features
+• User registration & login (email + password + first/last name)
+• “Keep me signed in” for 5 minutes via SharedPreferences
+• Create, view, and delete posts (title + optional photo)
+• Inline comments under each post (author, timestamp, content)
+• Local offline database (Room) for users, posts, comments
+• Navigation with Navigation Component
+• Optional HTTP GET/POST tests via Retrofit + ViewModel
+• Material Design 3 UI, Kotlin coroutines
+
+Technology Stack
+• Kotlin & Android Jetpack
+• Room (entities, DAOs, database)
+• Navigation Component
+• SharedPreferences
+• Coroutines + Lifecycle ViewModel
+• Retrofit + Moshi (networking)
+• RecyclerView with custom adapters
+• FileProvider (camera capture)
+
+Data Layer
+• Entities mirror tables: users, posts, comments
+• DAOs expose suspend functions for CRUD
+• AppDatabase aggregates DAOs; version migrations via fallbackToDestructiveMigration(true)
+
+UI Layer
+• Fragments for each screen: login, register steps, feed, add post, HTTP test
+• RecyclerViews with custom Adapters
+• Item layouts: item_post.xml (includes nested RecyclerView & comment input), item_comment.xml
+
+Comment System
+• CommentEntity: commentId, postId, userId, userName, content, timestamp
+• Inline RecyclerView in each post card
+• Coroutine-backed insert & reload of comments on send
+
+Photo Capture
+• AddPostFragment dispatches camera Intent via FileProvider
+• Temporary file stored in external-files/Pictures
+• Image path saved in PostEntity
