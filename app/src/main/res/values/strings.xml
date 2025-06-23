@@ -30,4 +30,5 @@
     <string name="address_street_and_number">Address Street and Number</string>
     <string name="post_title">Post Title</string>
     <string name="post_message">Post Message</string>
+    <string name="test_http_request">Test Http Request</string>
 </resources>

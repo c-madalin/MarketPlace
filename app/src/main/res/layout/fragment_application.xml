@@ -28,16 +28,17 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/postRecyclerView"
-        android:layout_width="369dp"
-        android:layout_height="460dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="4dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@id/addPostButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintVertical_bias="0.524" />
+        app:layout_constraintBottom_toTopOf="@id/addPostButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
 
     <Button
         android:id="@+id/addPostButton"
@@ -63,7 +64,7 @@
         android:backgroundTint="#47F"
         android:elevation="4dp"
         android:padding="12dp"
-        android:text="Test Http Request"
+        android:text="@string/test_http_request"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
