@@ -20,7 +20,6 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Titlu ecran -->
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
@@ -32,7 +31,6 @@
                 android:paddingBottom="16dp"
                 android:textColor="#222222" />
 
-            <!-- Titlu postare -->
             <EditText
                 android:id="@+id/etTitle"
                 android:layout_width="match_parent"
@@ -45,7 +43,6 @@
                 android:textColorHint="#888888"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Imagine -->
             <ImageView
                 android:id="@+id/imagePreview"
                 android:layout_width="match_parent"
@@ -55,7 +52,6 @@
                 android:background="#DDDDDD"
                 android:contentDescription="Previzualizare imagine" />
 
-            <!-- Buton Fă Poză -->
             <Button
                 android:id="@+id/btnTakePicture"
                 android:layout_width="match_parent"
@@ -65,7 +61,6 @@
                 android:backgroundTint="#E8F5E9"
                 android:layout_marginTop="16dp" />
 
-            <!-- Buton Salvare -->
             <Button
                 android:id="@+id/btnSavePost"
                 android:layout_width="match_parent"

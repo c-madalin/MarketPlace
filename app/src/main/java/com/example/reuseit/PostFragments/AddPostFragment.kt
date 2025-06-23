@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddPostFragment : Fragment() {
-
     private lateinit var imagePreview: ImageView
     private lateinit var etTitle: EditText
     private lateinit var photoFile: File
@@ -67,7 +66,7 @@ class AddPostFragment : Fragment() {
                 userId = CurrentUser.Data.UserID,
                 userName = "${CurrentUser.Data.FirstName} ${CurrentUser.Data.LastName}",
                 title = title,
-                imagePath = imagePath ?: ""  // ← dacă nu ai poză, salvează șir gol
+                imagePath = imagePath ?: ""
             )
 
 
@@ -75,7 +74,7 @@ class AddPostFragment : Fragment() {
                 DatabaseInstance.Access.postDAO().insert(post)
             }
 
-            findNavController().popBackStack() // Înapoi la ApplicationFragment
+            findNavController().popBackStack()
         }
     }
 

@@ -180,7 +180,7 @@ class LoginFragment : Fragment() {
     private fun showError(message: String) {
         errorTextView.text = message
         errorTextView.visibility = View.VISIBLE
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+        //Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun keepUserLogged(){

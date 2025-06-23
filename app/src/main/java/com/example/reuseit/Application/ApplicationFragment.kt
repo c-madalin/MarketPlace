@@ -45,6 +45,13 @@ class ApplicationFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.postRecyclerView)
         val addPostButton = view.findViewById<Button>(R.id.addPostButton)
+        val httpRequest = view.findViewById<Button>(R.id.httpRequest)
+        httpRequest.setOnClickListener {
+            findNavController().navigate(R.id.action_applicationFragment_to_requestsFragment)
+        }
+
+
+
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -58,12 +65,6 @@ class ApplicationFragment : Fragment() {
         addPostButton.setOnClickListener {
             findNavController().navigate(R.id.action_applicationFragment_to_addPostFragment)
         }
-
-        Snackbar.make(
-            view,
-            "${CurrentUser.Data.Email} ${CurrentUser.Data.FirstName} ${CurrentUser.Data.LastName} (${CurrentUser.Data.UserID})",
-            Snackbar.LENGTH_SHORT
-        ).show()
     }
 
     companion object {

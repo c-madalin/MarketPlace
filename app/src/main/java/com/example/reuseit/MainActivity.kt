@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
             .fallbackToDestructiveMigration(true)
             .build()
 
-
-
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
