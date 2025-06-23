@@ -5,10 +5,10 @@
     android:id="@+id/loginFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#F7F7F7"
+    >
 
-    <!-- Titlu Login -->
     <TextView
         android:id="@+id/LoginLabel"
         android:layout_width="0dp"
@@ -52,7 +52,9 @@
             android:id="@+id/LoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"/>
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -64,13 +66,15 @@
         app:passwordToggleEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/emailLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/LoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout

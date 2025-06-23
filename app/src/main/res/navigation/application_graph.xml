@@ -6,7 +6,6 @@
     android:id="@+id/application_graph"
     app:startDestination="@id/applicationFragment">
 
-    <!-- Fragment principal -->
     <fragment
         android:id="@+id/applicationFragment"
         android:name="com.example.reuseit.Application.ApplicationFragment"
@@ -16,6 +15,9 @@
         <action
             android:id="@+id/action_applicationFragment_to_addPostFragment"
             app:destination="@id/addPostFragment" />
+        <action
+            android:id="@+id/action_applicationFragment_to_requestsFragment"
+            app:destination="@id/requestsFragment" />
     </fragment>
 
     <fragment
@@ -23,13 +25,11 @@
         android:name="com.example.reuseit.PostFragments.AddPostFragment"
         android:label="Add Post"
         tools:layout="@layout/fragment_add_post" />
-
-
     <fragment
-        android:id="@+id/httpRequestFragment"
-        android:name="com.example.reuseit.NetworkFragments.HttpRequestFragment"
-        android:label="HTTP Test"
-        tools:layout="@layout/fragment_http_requests" />
+        android:id="@+id/requestsFragment"
+        android:name="com.example.reuseit.Requests.RequestsFragment"
+        android:label="fragment_requests"
+        tools:layout="@layout/fragment_requests" />
 
 
 </navigation>

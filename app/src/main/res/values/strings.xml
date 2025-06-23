@@ -24,4 +24,10 @@
     <string name="dad">dad</string>
     <string name="keep_me_logged_in">Keep me logged in</string>
     <string name="reuseit">REUSEIT</string>
+    <string name="new_post">New Post</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="address_street_and_number">Address Street and Number</string>
+    <string name="post_title">Post Title</string>
+    <string name="post_message">Post Message</string>
 </resources>
