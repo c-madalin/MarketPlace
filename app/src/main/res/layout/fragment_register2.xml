@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".LoginAndRegistration.Register2Fragment"
-    android:background="#F7F7F7">
+    tools:context=".LoginAndRegistration.Register2Fragment">
 
     <TextView
         android:id="@+id/Reg2Label"
@@ -48,8 +47,7 @@
             android:id="@+id/Reg2FirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:textColor="@color/black"/>
+            android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,8 +65,7 @@
             android:id="@+id/Reg2LastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:textColor="@color/black"/>
+            android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

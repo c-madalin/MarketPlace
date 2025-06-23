@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".LoginAndRegistration.Register1Fragment"
-    android:background="#F7F7F7">
+    tools:context=".LoginAndRegistration.Register1Fragment">
 
     <TextView
         android:id="@+id/Reg1Label"
@@ -48,8 +47,7 @@
             android:id="@+id/Reg1Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/black"/>
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,8 +66,7 @@
             android:id="@+id/Reg1Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/black"/>
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,8 +85,7 @@
             android:id="@+id/Reg1ConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/black"/>
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
